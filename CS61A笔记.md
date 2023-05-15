@@ -143,3 +143,25 @@ def make_withdraw(balance):
 
 ## Q3: List-Mutation
 注意Python里面的`remove`函数是删除这个值而不是这个位置
+
+# Homework 5
+## Q4: Merge
+注意`yield`的用法，下面是一些粗浅的理解:
+当一个函数`foo`里面有`yield`而不是`return`的时候，调用`foo()`会返回一个迭代器(所以也就不会执行里面的语句)，其他的直接参考下面的代码即可理解
+```python
+def foo():
+    print("starting...")
+    while True:
+        res = yield 4
+        print("res:",res)
+g = foo()
+#没有输出
+print(next(g))
+#输出: starting...
+#输出: 4
+print("*"*20)
+#输出: ********************
+print(next(g))
+#输出: res: None
+#输出: 4
+```
