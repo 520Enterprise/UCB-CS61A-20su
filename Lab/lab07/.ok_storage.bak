@@ -1,0 +1,6 @@
+'subseqs-correct', (0, 70)
+'inc_subseqs-correct', (512, 70)
+'reverse-correct', (1024, 70)
+'make_glookup-correct', (1536, 70)
+'num_trees-correct', (2048, 70)
+'make_advanced_counter_maker-correct', (2560, 70)
