@@ -118,3 +118,28 @@ False
 
 ## Q9: Div Interva
 注意当`assert`错误时在OK系统中要输出`AssertionError`，今天因为这个sb错误调了二十分钟
+
+# Lab 6
+注意`nonlocal`关键字的使用，可以修改父帧的变量
+```python
+def make_withdraw(balance):
+    """Returns a function which can withdraw
+    some amount from balance
+
+    >>> withdraw = make_withdraw(50)
+    >>> withdraw(25)
+    25
+    >>> withdraw(25)
+    0
+    """
+    def withdraw(amount):
+        nonlocal balance
+        if amount > balance:
+            return "Insufficient funds"
+        balance = balance - amount
+        return balance
+    return withdraw
+``` 
+
+## Q3: List-Mutation
+注意Python里面的`remove`函数是删除这个值而不是这个位置
