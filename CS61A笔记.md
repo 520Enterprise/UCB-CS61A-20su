@@ -82,3 +82,39 @@ return tree(label(t1) + label(t2), [add_trees(x, y) for x, y in zip_tree])
 
 ## Putting it all together
 注意要用命令`winpty python -i lab05.py`
+
+# Homework 4
+
+## Q5: Preorder
+如果用到这个`sum`函数就会很方便，可以用来合并数组
+```python
+lst = [[1, 2], [3, 4]]
+print(sum(lst, [])) 
+#[1, 2, 3, 4]
+```
+
+## Q6: Has Path
+用any会很方便
+`any()` 函数用于判断给定的可迭代参数 `iterable` 是否全部为 `False`，则返回 `False`，如果有一个为 `True`，则返回 `True`。
+元素除了是 `0`、空、`False` 外都算 `True`。
+```python
+>>> any(['a', 'b', 'c', 'd'])  # 列表list，元素都不为空或0
+True
+>>> any(['a', 'b', '', 'd'])   # 列表list，存在一个为空的元素
+True
+>>> any([0, '', False])        # 列表list,元素全为0,'',false
+False
+>>> any(('a', 'b', 'c', 'd'))  # 元组tuple，元素都不为空或0
+True
+>>> any(('a', 'b', '', 'd'))   # 元组tuple，存在一个为空的元素
+True
+>>> any((0, '', False))        # 元组tuple，元素全为0,'',false
+False
+>>> any([]) # 空列表
+False
+>>> any(()) # 空元组
+False
+```
+
+## Q9: Div Interva
+注意当`assert`错误时在OK系统中要输出`AssertionError`，今天因为这个sb错误调了二十分钟
