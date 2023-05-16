@@ -1,3 +1,5 @@
+![106926923_p0](https://img2023.cnblogs.com/blog/1892247/202305/1892247-20230516142055828-881758820.png)
+
 因为做到Hog的Problem7才发觉应该要做笔记，所以之前的就没有了，从那个题开始，[GitHub仓库地址](https://github.com/520Enterprise/UCB-CS61A-20su)
 
 # 关于Debug
@@ -139,7 +141,7 @@ def make_withdraw(balance):
         balance = balance - amount
         return balance
     return withdraw
-``` 
+```
 
 ## Q3: List-Mutation
 注意Python里面的`remove`函数是删除这个值而不是这个位置
@@ -164,4 +166,50 @@ print("*"*20)
 print(next(g))
 #输出: res: None
 #输出: 4
+```
+
+## Q6:
+这个题要用高阶生成器做，有点难度，看了网站上的视频感觉没任何有用信息，之后又在AI的提示下做出来的(AI一开始也不对，乐)
+```python
+def remainders_generator(m):
+    """
+    Yields m generators. The ith yielded generator yields natural numbers whose
+    remainder is i when divided by m.
+
+    >>> import types
+    >>> [isinstance(gen, types.GeneratorType) for gen in remainders_generator(5)]
+    [True, True, True, True, True]
+    >>> remainders_four = remainders_generator(4)
+    >>> for i in range(4):
+    ...     print("First 3 natural numbers with remainder {0} when divided by 4:".format(i))
+    ...     gen = next(remainders_four)
+    ...     for _ in range(3):
+    ...         print(next(gen))
+    First 3 natural numbers with remainder 0 when divided by 4:
+    4
+    8
+    12
+    First 3 natural numbers with remainder 1 when divided by 4:
+    1
+    5
+    9
+    First 3 natural numbers with remainder 2 when divided by 4:
+    2
+    6
+    10
+    First 3 natural numbers with remainder 3 when divided by 4:
+    3
+    7
+    11
+    """
+    "*** YOUR CODE HERE ***"
+    def gen(x):
+        while True:
+            yield x
+            x += m
+    for i in range(m):
+        if i == 0:
+            yield gen(m)
+        else:
+            yield gen(i)
 ```

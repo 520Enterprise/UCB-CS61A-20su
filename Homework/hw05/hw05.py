@@ -240,7 +240,15 @@ def remainders_generator(m):
     11
     """
     "*** YOUR CODE HERE ***"
-
+    def gen(x):
+        while True:
+            yield x
+            x += m
+    for i in range(m):
+        if i == 0:
+            yield gen(m)
+        else:
+            yield gen(i)
 
 def naturals():
     """A generator function that yields the infinite sequence of natural
