@@ -69,7 +69,9 @@ return tree(label(t), [sprout_leaves(x, leaves) for x in branches(t)])
 [4, 5, 6]
 >>>
 ```
+
 解答如下，稍微有点复杂
+
 ```python
 if is_leaf(t1):
     return tree(label(t1) + label(t2), branches(t2))
@@ -83,12 +85,15 @@ return tree(label(t1) + label(t2), [add_trees(x, y) for x, y in zip_tree])
 ```
 
 ## Putting it all together
-注意要用命令`winpty python -i lab05.py`
+
+注意要用命令 `winpty python -i lab05.py`
 
 # Homework 4
 
 ## Q5: Preorder
-如果用到这个`sum`函数就会很方便，可以用来合并数组
+
+如果用到这个 `sum`函数就会很方便，可以用来合并数组
+
 ```python
 lst = [[1, 2], [3, 4]]
 print(sum(lst, [])) 
@@ -96,9 +101,11 @@ print(sum(lst, []))
 ```
 
 ## Q6: Has Path
+
 用any会很方便
 `any()` 函数用于判断给定的可迭代参数 `iterable` 是否全部为 `False`，则返回 `False`，如果有一个为 `True`，则返回 `True`。
 元素除了是 `0`、空、`False` 外都算 `True`。
+
 ```python
 >>> any(['a', 'b', 'c', 'd'])  # 列表list，元素都不为空或0
 True
@@ -119,10 +126,13 @@ False
 ```
 
 ## Q9: Div Interva
-注意当`assert`错误时在OK系统中要输出`AssertionError`，今天因为这个sb错误调了二十分钟
+
+注意当 `assert`错误时在OK系统中要输出 `AssertionError`，今天因为这个sb错误调了二十分钟
 
 # Lab 6
-注意`nonlocal`关键字的使用，可以修改父帧的变量
+
+注意 `nonlocal`关键字的使用，可以修改父帧的变量
+
 ```python
 def make_withdraw(balance):
     """Returns a function which can withdraw
@@ -144,12 +154,16 @@ def make_withdraw(balance):
 ```
 
 ## Q3: List-Mutation
-注意Python里面的`remove`函数是删除这个值而不是这个位置
+
+注意Python里面的 `remove`函数是删除这个值而不是这个位置
 
 # Homework 5
+
 ## Q4: Merge
-注意`yield`的用法，下面是一些粗浅的理解:
-当一个函数`foo`里面有`yield`而不是`return`的时候，调用`foo()`会返回一个迭代器(所以也就不会执行里面的语句)，其他的直接参考下面的代码即可理解
+
+注意 `yield`的用法，下面是一些粗浅的理解:
+当一个函数 `foo`里面有 `yield`而不是 `return`的时候，调用 `foo()`会返回一个迭代器(所以也就不会执行里面的语句)，其他的直接参考下面的代码即可理解
+
 ```python
 def foo():
     print("starting...")
@@ -169,7 +183,9 @@ print(next(g))
 ```
 
 ## Q6:
+
 这个题要用高阶生成器做，有点难度，看了网站上的视频感觉没任何有用信息，之后又在AI的提示下做出来的(AI一开始也不对，乐)
+
 ```python
 def remainders_generator(m):
     """
@@ -212,4 +228,83 @@ def remainders_generator(m):
             yield gen(m)
         else:
             yield gen(i)
+```
+
+# Lab 8
+
+There are also some built-in functions that take in iterables and return useful results:
+
+* `map(f, iterable)` - Creates iterator over `f(x)` for each `x` in `iterable`
+* `filter(f, iterable)` - Creates iterator over `x` for each `x` in `iterable` if `f(x)`
+* `zip(iter1, iter2)` - Creates iterator over co-indexed pairs (x, y) from both input iterables
+* `reversed(iterable)` - Creates iterator over all the elements in the input iterable in reverse order
+* `list(iterable)` - Creates a list containing all the elements in the input iterable
+* `tuple(iterable)` - Creates a tuple containing all the elements in the input iterable
+* `sorted(iterable)` - Creates a sorted list containing all the elements in the input iterable
+
+## Q1: WWPD
+
+注意以下语法，其实我们在Python中遍历数组的时候也是在用迭代器
+
+```python
+>>> r = range(6)
+>>> r_iter = iter(r)
+>>> next(r_iter)
+0
+
+>>> [x + 1 for x in r]
+[1, 2, 3, 4, 5, 6]
+
+>>> [x + 1 for x in r_iter]
+[2, 3, 4, 5, 6]
+```
+
+## Q2: Generators generator
+这个题有点难，一开始没搞明白，看了答案才懂
+主要的难点在于想到用`for entry in g():`
+这种题用辅助函数也是容易想到的(但是我没想到，乐)
+```python
+def make_generators_generator(g):
+    """Generates all the "sub"-generators of the generator returned by
+    the generator function g.
+
+    >>> def every_m_ints_to(n, m):
+    ...     i = 0
+    ...     while (i <= n):
+    ...         yield i
+    ...         i += m
+    ...
+    >>> def every_3_ints_to_10():
+    ...     for item in every_m_ints_to(10, 3):
+    ...         yield item
+    ...
+    >>> for gen in make_generators_generator(every_3_ints_to_10):
+    ...     print("Next Generator:")
+    ...     for item in gen:
+    ...         print(item)
+    ...
+    Next Generator:
+    0
+    Next Generator:
+    0
+    3
+    Next Generator:
+    0
+    3
+    6
+    Next Generator:
+    0
+    3
+    6
+    9
+    """
+    "*** YOUR CODE HERE ***"
+    def gen_helper(num):
+        gen = g()
+        for i in range(num):
+            yield next(gen)
+    i = 1
+    for entry in g():
+        yield gen_helper(i)
+        i += 1
 ```
