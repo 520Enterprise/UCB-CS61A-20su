@@ -460,3 +460,98 @@ class Dogs(object):
 ## Problem 5
 注意如何调用父类的函数(两种方法分别是`super().xxx`和`Ant.xxx`)
 
+## Problem 9
+>Hint: You may find the `isinstance` function useful for checking if an object is an instance of a given class. For example:
+```python
+    >>> a = Foo()
+    >>> isinstance(a, Foo)
+    True
+```
+
+> Note: the constructor of `ContainerAnt.__init__` is implemented as such
+>
+> 这个用法很重要
+
+```
+    def __init__(self, *args, **kwargs):
+        Ant.__init__(self, *args, **kwargs)
+        self.contained_ant = None
+```
+
+> As we saw in Hog, we have that `args` is bound to all ***positional arguments*** (that is all arguments not passed not with keywords, and `kwargs` is bound to all the ***keyword arguments***. This ensures that both sets of arguments are passed to the Ant constructor).
+>
+> Effectively, this means the constructor is exactly the same as `Ant.__init__` but sets `self.contained_ant = None`
+
+如下
+
+```python
+def print_func(x, *args, **kwargs):
+    print(x)
+    print(args)
+    print(kwargs)
+
+print_func(1, 2, 3, 4, y=1, a=2, b=3, c=4)
+#输出结果
+1
+(2, 3, 4)
+{'y': 1, 'a': 2, 'b': 3, 'c': 4}
+```
+
+## Problem 13
+这个挺麻烦的，改了不少地方，而且也不好参考别人的，一个细节是要考虑`ContainerAnt`自己也可以造成伤害，所以在改`action`的时候要考虑这个
+
+Python `pass` 是空语句，是为了保持程序结构的完整性。
+`pass` 不做任何事情，一般用做占位语句。
+
+一个教训，能用父类的方法就直接用，增而不是改，下面是前后对比(前者错了并且一直调不出来)
+```python
+def reduce_armor(self, amount):
+    """Reduce armor by AMOUNT, and if the True QueenAnt has no armor
+    remaining, signal the end of the game.
+    """
+    # BEGIN Problem 13
+    "*** YOUR CODE HERE ***"
+    self.armor -= amount
+    if self.armor <= 0:
+        if self.index == 1:
+            bees_win()
+        print("DEBUG: ", self, self.index, self.place)
+        self.place.remove_insect(self)
+        self.death_callback()
+    # END Problem 13
+
+def remove_from(self, place):
+    # BEGIN Problem 13
+    "*** YOUR CODE HERE ***"
+    if place.ant is None:
+        assert False, '{0} is not in {1}'.format(self, place)
+    elif place.ant is self:
+        if self.index == 1:
+            return
+        QueenAnt.count -= 1
+        place.ant = None
+    Ant.remove_from(self, place)
+    # END Problem 13
+```
+
+```python
+def reduce_armor(self, amount):
+    """Reduce armor by AMOUNT, and if the True QueenAnt has no armor
+    remaining, signal the end of the game.
+    """
+    # BEGIN Problem 13
+    "*** YOUR CODE HERE ***"
+    Ant.reduce_armor(self, amount)
+    if self.armor <= 0 and self.index == 1:
+        bees_win()
+    # END Problem 13
+
+def remove_from(self, place):
+    # BEGIN Problem 13
+    "*** YOUR CODE HERE ***"
+    if self.index == 1:
+        pass
+    else:
+        super().remove_from(place)
+    # END Problem 13
+```
