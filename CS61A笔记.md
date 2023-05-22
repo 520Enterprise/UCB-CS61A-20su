@@ -444,3 +444,15 @@ for valid_word in valid_words:
         min_word = valid_word
 ```
 
+# Project 3: Ants
+注意Python中类的实例属性和类属性的区别
+
+```python
+class Dogs(object):
+    # 类属性
+    belongTo = "Animals"
+ 
+    def __init__(self, name):
+        #实例属性
+        self.name = name
+```
