@@ -456,3 +456,7 @@ class Dogs(object):
         #实例属性
         self.name = name
 ```
+
+## Problem 5
+注意如何调用父类的函数(两种方法分别是`super().xxx`和`Ant.xxx`)
+
