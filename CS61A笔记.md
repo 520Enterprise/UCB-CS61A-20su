@@ -230,7 +230,7 @@ def remainders_generator(m):
             yield gen(i)
 ```
 
-# Lab 8: Object-Oriented Programming 
+# Lab 8: Object-Oriented Programming
 
 There are also some built-in functions that take in iterables and return useful results:
 
@@ -311,9 +311,11 @@ def make_generators_generator(g):
         i += 1
 ```
 
-# Homework 6: Object-Oriented Programming, Linked Lists, Trees 
+# Homework 6: Object-Oriented Programming, Linked Lists, Trees
+
 ## Q8: Deep Map
->Hint: You may find the built-in isinstance function useful. You can also use the type(link) == Link to check whether an object is a linked list (like you did in homework 3 question 1).
+
+> Hint: You may find the built-in isinstance function useful. You can also use the type(link) == Link to check whether an object is a linked list (like you did in homework 3 question 1).
 
 注意这个辅助函数的用法，可以用来判断是否为 `Link`类型
 
@@ -335,21 +337,19 @@ def helper(link):
 
 ChatGPT告诉我们
 
->这段代码是一个测试代码片段，用于验证在`typing_test.py`中是否正确定义了特定的函数和函数名称。
+> 这段代码是一个测试代码片段，用于验证在 `typing_test.py`中是否正确定义了特定的函数和函数名称。
 >
->首先，代码尝试导入一些函数：`key_distance_diff`、`meowstake_matches`、`autocorrect`、`lines_from_file`、`faster_autocorrect`和`shifty_shifts`。然后，它从文件中加载单词列表，并检查导入是否成功。如果导入失败，则会引发`ImportError`并给出相应的错误信息。
+> 首先，代码尝试导入一些函数：`key_distance_diff`、`meowstake_matches`、`autocorrect`、`lines_from_file`、`faster_autocorrect`和 `shifty_shifts`。然后，它从文件中加载单词列表，并检查导入是否成功。如果导入失败，则会引发 `ImportError`并给出相应的错误信息。
 >
->接下来，代码使用`trace`模块和`io.StringIO`上下文管理器来捕获函数的调用信息。它运行了`key_distance_diff`函数，并将输出重定向到`buf`。然后，它从输出中提取出调用函数的相关行信息，并提取出函数名称。最后，它将提取的函数名称与预期的函数名称集合进行比较，即`{'counted', 'key_distance_diff', 'memoized'}`。
+> 接下来，代码使用 `trace`模块和 `io.StringIO`上下文管理器来捕获函数的调用信息。它运行了 `key_distance_diff`函数，并将输出重定向到 `buf`。然后，它从输出中提取出调用函数的相关行信息，并提取出函数名称。最后，它将提取的函数名称与预期的函数名称集合进行比较，即 `{'counted', 'key_distance_diff', 'memoized'}`。
 >
->如果比较结果为`True`，则意味着`key_distance_diff`函数是在代码中唯一被使用的函数。否则，可能意味着其他函数也被调用了，需要进行检查。
+> 如果比较结果为 `True`，则意味着 `key_distance_diff`函数是在代码中唯一被使用的函数。否则，可能意味着其他函数也被调用了，需要进行检查。
 >
->这段代码主要用于代码质量控制和测试，以确保程序正确地调用了特定的函数并遵守预期行为。
+> 这段代码主要用于代码质量控制和测试，以确保程序正确地调用了特定的函数并遵守预期行为。
 
 一开始我用的迭代式的DP而不是递归式做的，结果就寄了(原因不确定)
 
-
-
-注意这个`memo`函数的实现，这里`memo`是每次只要进入函数就会有`count`所以要过关要求的是不能进入
+注意这个 `memo`函数的实现，这里 `memo`是每次只要进入函数就会有 `count`所以要过关要求的是不能进入
 
 `key_distance_diff`函数
 
@@ -367,7 +367,7 @@ def memo(f):
     return memoized
 ```
 
-那么只有当`f`采用递归实现的时候`memo`才有意义，所以`key_distance_diff`应该修改一下
+那么只有当 `f`采用递归实现的时候 `memo`才有意义，所以 `key_distance_diff`应该修改一下
 
 ```python
 def key_distance_diff(start, goal, limit):
@@ -421,8 +421,6 @@ words_diff = [diff_function(user_word, w, limit) for w in valid_words]
 similar_word, similar_diff = min(zip(valid_words, words_diff), key=lambda item: item[1])
 ```
 
-
-
 调了很久破案了，原来是因为这个，什么OI常用技巧，这也要记忆化是吧，乐
 
 ```python
@@ -445,6 +443,7 @@ for valid_word in valid_words:
 ```
 
 # Project 3: Ants
+
 注意Python中类的实例属性和类属性的区别
 
 ```python
@@ -458,10 +457,13 @@ class Dogs(object):
 ```
 
 ## Problem 5
-注意如何调用父类的函数(两种方法分别是`super().xxx`和`Ant.xxx`)
+
+注意如何调用父类的函数(两种方法分别是 `super().xxx`和 `Ant.xxx`)
 
 ## Problem 9
->Hint: You may find the `isinstance` function useful for checking if an object is an instance of a given class. For example:
+
+> Hint: You may find the `isinstance` function useful for checking if an object is an instance of a given class. For example:
+
 ```python
     >>> a = Foo()
     >>> isinstance(a, Foo)
@@ -498,12 +500,14 @@ print_func(1, 2, 3, 4, y=1, a=2, b=3, c=4)
 ```
 
 ## Problem 13
-这个挺麻烦的，改了不少地方，而且也不好参考别人的，一个细节是要考虑`ContainerAnt`自己也可以造成伤害，所以在改`action`的时候要考虑这个
+
+这个挺麻烦的，改了不少地方，而且也不好参考别人的，一个细节是要考虑 `ContainerAnt`自己也可以造成伤害，所以在改 `action`的时候要考虑这个
 
 Python `pass` 是空语句，是为了保持程序结构的完整性。
 `pass` 不做任何事情，一般用做占位语句。
 
 一个教训，能用父类的方法就直接用，增而不是改，下面是前后对比(前者错了并且一直调不出来)
+
 ```python
 def reduce_armor(self, amount):
     """Reduce armor by AMOUNT, and if the True QueenAnt has no armor
@@ -554,4 +558,74 @@ def remove_from(self, place):
     else:
         super().remove_from(place)
     # END Problem 13
+```
+
+# Lab10: Scheme, Scheme Lists
+
+## Q1: WWSD: Lists
+
+基本就是中缀表达式，注意有关 `list`的操作
+
+```scheme
+scm> (define a (cons 1 (cons 2 (cons 3 nil))))  ; Assign the list to the name a
+a
+scm> a
+(1 2 3)
+scm> (car a)
+1
+scm> (cdr a)
+(2 3)
+scm> (car (cdr (cdr a)))
+3
+scm> (list 1 2 3)
+(1 2 3)
+scm> (list 1 (list 2 3) 4)
+(1 (2 3) 4)
+scm> (list (cons 1 (cons 2 nil)) 3 4)
+((1 2) 3 4)
+```
+
+下面是几个有点tricky的题目(注意引用和非引用的区别)
+
+```scheme
+scm> (cons 1 '(list 2 3))
+(1 list 2 3)
+scm> (cons 1 (list (cons 3 nil) 4 5))
+(1 (3) 4 5)
+```
+
+## Q3: Filter Lst
+
+> Write a procedure `filter-lst`, which takes a predicate `fn` and a list `lst`, and returns a new list containing only elements of the list that satisfy the predicate. The output should contain the elements in the same order that they appeared in the original list.
+
+这里考的是递归(在Scheme中，基本不会使用循环迭代，因为递归更符合函数式编程的思想，而且循环迭代都能用递归实现)
+
+```scheme
+(define (filter-lst fn lst)
+  'YOUR-CODE-HERE
+  (cond ((null? lst) '())
+        ((fn (car lst)) (cons (car lst) (filter-lst fn (cdr lst))))
+        (else (filter-lst fn (cdr lst))))
+)
+```
+
+## Q9: Substitute
+
+> *Hint* : The built-in `pair?` predicate returns True if its argument is a `cons` pair.
+搞了缩进之后明显好看并且好调多了
+
+```scheme
+(define (substitute s old new)
+	'YOUR-CODE-HERE
+	(if (null? s)
+		'()
+		(if (pair? (car s))
+			(cons (substitute (car s) old new) (substitute (cdr s) old new))
+			(if (equal? (car s) old) (cons new (substitute (cdr s) old new))
+									 (cons (car s) (substitute (cdr s) old new))
+				)
+			)
+
+		)
+	)
 ```
