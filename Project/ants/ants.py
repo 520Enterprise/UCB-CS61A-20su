@@ -3,6 +3,7 @@
 import random
 from ucb import main, interact, trace
 from collections import OrderedDict
+from enum import Enum
 
 
 ################
@@ -558,6 +559,11 @@ class AntRemover(Ant):
         Ant.__init__(self, 0)
 
 
+class Direction(Enum):
+    FORWARD = 1
+    BACKWARD = 2
+
+
 class Bee(Insect):
     """A Bee moves from place to place, following exits and stinging ants."""
 
@@ -566,6 +572,11 @@ class Bee(Insect):
     is_watersafe = True
 
     # OVERRIDE CLASS ATTRIBUTES HERE
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.direction = Direction.FORWARD
+        self.scared = False
 
     def sting(self, ant):
         """Attack an ANT, reducing its armor by 1."""
@@ -594,6 +605,10 @@ class Bee(Insect):
         # Extra credit: Special handling for bee direction
         # BEGIN EC
         "*** YOUR CODE HERE ***"
+        if self.direction == Direction.BACKWARD:
+            destination = self.place.entrance
+            if isinstance(self.place, Hive):
+                destination = self.place
         # END EC
         if self.blocked():
             self.sting(self.place.ant)
@@ -620,6 +635,14 @@ def make_slow(action, bee):
     """
     # BEGIN Problem EC
     "*** YOUR CODE HERE ***"
+
+    def slow_action(gamestate):
+        if gamestate.time % 2 == 0:
+            action(gamestate)
+        else:
+            pass
+
+    return slow_action
     # END Problem EC
 
 
@@ -630,6 +653,13 @@ def make_scare(action, bee):
     """
     # BEGIN Problem EC
     "*** YOUR CODE HERE ***"
+
+    def scare_action(gamestate):
+        bee.direction = Direction.BACKWARD
+        action(gamestate)
+        bee.direction = Direction.FORWARD
+
+    return scare_action
     # END Problem EC
 
 
@@ -637,6 +667,18 @@ def apply_status(status, bee, length):
     """Apply a status to a BEE that lasts for LENGTH turns."""
     # BEGIN Problem EC
     "*** YOUR CODE HERE ***"
+    original_action = bee.action
+    status_action = status(original_action, bee)
+
+    def new_action(gamestate):
+        nonlocal length
+        if length > 0:
+            status_action(gamestate)
+            length -= 1
+        else:
+            original_action(gamestate)
+
+    bee.action = new_action
     # END Problem EC
 
 
@@ -646,7 +688,7 @@ class SlowThrower(ThrowerAnt):
     name = 'Slow'
     food_cost = 4
     # BEGIN Problem EC
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
 
     # END Problem EC
 
@@ -661,13 +703,16 @@ class ScaryThrower(ThrowerAnt):
     name = 'Scary'
     food_cost = 6
     # BEGIN Problem EC
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
 
     # END Problem EC
 
     def throw_at(self, target):
         # BEGIN Problem EC
         "*** YOUR CODE HERE ***"
+        if target and not target.scared:
+            apply_status(make_scare, target, 2)
+            target.scared = True
         # END Problem EC
 
 
@@ -676,9 +721,10 @@ class LaserAnt(ThrowerAnt):
 
     name = 'Laser'
     food_cost = 10
+    damage = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem OPTIONAL
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
 
     # END Problem OPTIONAL
 
@@ -688,18 +734,30 @@ class LaserAnt(ThrowerAnt):
 
     def insects_in_front(self, beehive):
         # BEGIN Problem OPTIONAL
-        return {}
+        insects_dic = {}
+        place = self.place
+        distance = 0
+        while place and place is not beehive:
+            if place.ant and place.ant is not self:
+                insects_dic[place.ant] = distance
+            for bee in place.bees:
+                insects_dic[bee] = distance
+            distance += 1
+            place = place.entrance
+        return insects_dic
         # END Problem OPTIONAL
 
     def calculate_damage(self, distance):
         # BEGIN Problem OPTIONAL
-        return 0
+        return max(0, self.damage - distance * 0.2 - self.insects_shot * 0.05)
         # END Problem OPTIONAL
 
     def action(self, gamestate):
         insects_and_distances = self.insects_in_front(gamestate.beehive)
+        print("DEBUG: ", insects_and_distances)
         for insect, distance in insects_and_distances.items():
             damage = self.calculate_damage(distance)
+            print("DEBUG: ", insect, distance, damage, self.insects_shot)
             insect.reduce_armor(damage)
             if damage:
                 self.insects_shot += 1
