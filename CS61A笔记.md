@@ -560,7 +560,7 @@ def remove_from(self, place):
     # END Problem 13
 ```
 
-# Lab10: Scheme, Scheme Lists
+# Lab 10: Scheme, Scheme Lists
 
 ## Q1: WWSD: Lists
 
@@ -628,4 +628,12 @@ scm> (cons 1 (list (cons 3 nil) 4 5))
 
 		)
 	)
+```
+
+# Lab 11: Interpreters
+## Q4: Applying Lambda Functions
+注意下面这个例子，很 tricky
+```python
+>>> read('(lambda x: x(x))(lambda y: 4)').eval(global_env)
+    Number(4)
 ```
