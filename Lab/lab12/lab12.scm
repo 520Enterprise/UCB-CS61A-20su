@@ -15,12 +15,29 @@
 
 
 (define (compose-all funcs)
-  'YOUR-CODE-HERE
+	(if (null? funcs)
+		(lambda (x) x)
+		(lambda (x) ((compose-all (cdr funcs)) ((car funcs) x)))
+	)
 )
 
 
 (define (partial-sums stream)
-  'YOUR-CODE-HERE
-  (helper 0 stream)
-)
+;  (define (add-stream s t)
+;	  (cond ((null? s) nil)
+;	  	((null? t) nil)
+;	  	(else (cons-stream (+ (car s) (car t)) (add-stream (cdr-stream s) (cdr-stream t))))
+;	  )
+;	  )
+;  (cons-stream (car stream) (add-stream (cdr-stream stream) (partial-sums stream)))
+	(define (helper sum stream)
+		(if (null? stream)
+			nil
+			(cons-stream (+ sum (car stream))
+				(helper (+ sum (car stream)) (cdr-stream stream))
+				)
+			)
+		)
+	(helper 0 stream)
+	)
 
