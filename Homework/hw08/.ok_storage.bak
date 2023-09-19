@@ -1,2 +1,5 @@
 'rle-correct', (0, 70)
 'group-by-nondecreasing-correct', (512, 70)
+'small-correct', (1024, 70)
+'parent-correct', (1536, 70)
+'stack-correct', (2048, 70)
