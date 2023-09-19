@@ -1,0 +1,6 @@
+'prune_min-correct', (0, 70)
+'align_skeleton-correct', (512, 70)
+'num_splits-correct', (1024, 70)
+'insert-correct', (1536, 70)
+'split-at-correct', (2048, 70)
+'switch-correct', (2560, 70)
