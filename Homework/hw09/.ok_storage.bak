@@ -1,0 +1,4 @@
+'reverse-simple-correct', (0, 70)
+'interleaved_sum-correct', (512, 70)
+'mutate_reverse-correct', (1024, 70)
+'in_order_traversal-correct', (1536, 70)
