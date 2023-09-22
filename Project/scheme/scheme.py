@@ -37,9 +37,12 @@ def scheme_eval(expr, env, tail=None):  # Optional third argument is ignored
     else:
         # BEGIN PROBLEM 4
         "*** YOUR CODE HERE ***"
-        operator = scheme_eval(first, env)
-        oprands = rest.map(lambda x: scheme_eval(x, env))
-        return scheme_apply(operator, oprands, env)
+        procedure = scheme_eval(first, env)
+        validate_procedure(procedure)
+        if isinstance(procedure, MacroProcedure):
+            return scheme_eval(procedure.apply_macro(rest, env), env, tail)
+        operands = rest.map(lambda x: scheme_eval(x, env))
+        return scheme_apply(procedure, operands, env)
         # END PROBLEM 4
 
 
@@ -289,7 +292,7 @@ def do_define_form(expressions, env):
         # check formals
         validate_formals(formals)
         env.define(name, LambdaProcedure(formals, body, env))
-        return target.first
+        return name
         # END PROBLEM 9
     else:
         bad_target = target.first if isinstance(target, Pair) else target
@@ -479,6 +482,18 @@ def do_define_macro(expressions, env):
     """
     # BEGIN Problem 20
     "*** YOUR CODE HERE ***"
+    validate_form(expressions, 2)
+    target = expressions.first
+    if isinstance(target, Pair) and scheme_symbolp(target.first):
+        name = target.first
+        formals = target.rest
+        body = expressions.rest
+        validate_formals(formals)
+        env.define(name, MacroProcedure(formals, body, env))
+        return name
+    else:
+        bad_target = target.first if isinstance(target, Pair) else target
+        raise SchemeError('non-symbol: {0}'.format(bad_target))
     # END Problem 20
 
 
